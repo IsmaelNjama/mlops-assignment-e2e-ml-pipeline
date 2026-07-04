@@ -1,19 +1,15 @@
-from pipeline.experiment import build_run_config, collect_metrics, prepare_run_dir, write_manifest
 import json
 import os
 import subprocess
-import sys
 from datetime import datetime
 from pathlib import Path
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
+from pipeline.experiment import build_run_config, collect_metrics, prepare_run_dir, write_manifest
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
-
 RUNS_DIR = PROJECT_ROOT / "runs"
 
 
@@ -98,21 +94,9 @@ def _run_eval(**context):
 def _summarize_and_log(**context):
     run_dir = Path(context["ti"].xcom_pull(
         task_ids="run_eval", key="return_value"))
-    config = json.loads(context["ti"].xcom_pull(
-        task_ids="prepare_run", key="config"))
-
-    report_candidates = [
-        run_dir / "run-eval" / "logs" / "run_evaluation" /
-        config["run_id"] / "report.json",
-        run_dir / "run-eval" / "report.json",
-    ]
-    report_path = next(
-        (path for path in report_candidates if path.exists()), None)
-    metrics = collect_metrics(report_path) if report_path is not None else {
-        "tasks_total": 0,
-        "tasks_resolved": 0,
-        "resolve_rate": 0.0,
-    }
+    report_path = run_dir / "run-eval" / "logs" / \
+        "run_evaluation" / config["run_id"] / "report.json"
+    metrics = collect_metrics(report_path)
 
     metrics_path = run_dir / "metrics.json"
     metrics_path.write_text(json.dumps(metrics, indent=2))
