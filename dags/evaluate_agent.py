@@ -1,15 +1,19 @@
+from pipeline.experiment import build_run_config, collect_metrics, prepare_run_dir, write_manifest
 import json
 import os
 import subprocess
+import sys
 from datetime import datetime
 from pathlib import Path
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
-from pipeline.experiment import build_run_config, collect_metrics, prepare_run_dir, write_manifest
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+
 RUNS_DIR = PROJECT_ROOT / "runs"
 
 
