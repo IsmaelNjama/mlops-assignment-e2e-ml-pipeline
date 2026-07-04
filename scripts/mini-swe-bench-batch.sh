@@ -9,16 +9,36 @@ set -euo pipefail
 : "${WORKERS:=1}"
 : "${COST_LIMIT:=0}"
 : "${OUTPUT_DIR:=trajectories}"
-: "${CONFIG_PATH:=.venv/lib/python3.13/site-packages/minisweagent/config/benchmarks/swebench.yaml}"
+
+# Locate the swebench benchmark config bundled with mini-swe-agent.
+# Try python3.13 first, then fall back to whatever python version is in the venv.
+CONFIG_PATH="${CONFIG_PATH:-}"
+if [ -z "$CONFIG_PATH" ]; then
+    CONFIG_PATH=$(find .venv/lib -name "swebench.yaml" \
+        -path "*/minisweagent/config/benchmarks/*" 2>/dev/null | head -1 || true)
+fi
+if [ -z "$CONFIG_PATH" ]; then
+    echo "ERROR: could not find minisweagent swebench.yaml config. Set CONFIG_PATH explicitly." >&2
+    exit 1
+fi
 
 mkdir -p "$OUTPUT_DIR"
 
-MSWEA_COST_TRACKING="$MSWEA_COST_TRACKING" \
-uv run mini-extra swebench \
-    --subset "$SUBSET" \
-    --split "$SPLIT" \
-    --model "$MODEL" \
-    --slice "$TASK_SLICE" \
-    --config "$CONFIG_PATH" \
-    --workers "$WORKERS" \
+# Build the command as an array so arguments with spaces are handled safely.
+CMD=(
+    uv run mini-extra swebench
+    --subset "$SUBSET"
+    --split  "$SPLIT"
+    --model  "$MODEL"
+    --slice  "$TASK_SLICE"
+    --config "$CONFIG_PATH"
+    --workers "$WORKERS"
     -o "$OUTPUT_DIR"
+)
+
+# Pass --cost-limit only when it is set to a non-zero value.
+if [ "$COST_LIMIT" -gt 0 ] 2>/dev/null; then
+    CMD+=(--cost-limit "$COST_LIMIT")
+fi
+
+MSWEA_COST_TRACKING="$MSWEA_COST_TRACKING" "${CMD[@]}"
