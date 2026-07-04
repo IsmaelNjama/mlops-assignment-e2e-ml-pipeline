@@ -9,7 +9,7 @@ set -euo pipefail
 : "${WORKERS:=1}"
 : "${COST_LIMIT:=0}"
 : "${OUTPUT_DIR:=trajectories}"
-: "${CONFIG_PATH:=mini-swe-agent/src/minisweagent/config/benchmarks/swebench.yaml}"
+: "${CONFIG_PATH:=.venv/lib/python3.13/site-packages/minisweagent/config/benchmarks/swebench.yaml}"
 
 mkdir -p "$OUTPUT_DIR"
 
@@ -21,5 +21,4 @@ uv run mini-extra swebench \
     --slice "$TASK_SLICE" \
     --config "$CONFIG_PATH" \
     --workers "$WORKERS" \
-    --cost-limit "$COST_LIMIT" \
     -o "$OUTPUT_DIR"

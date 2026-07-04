@@ -1073,7 +1073,7 @@ wheels = [
 [[package]]
 name = "mlops-assignment-e2e-ml-pipeline"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "mini-swe-agent" },
     { name = "swebench" },
