@@ -8,12 +8,12 @@ The pipeline turns two ad-hoc shell scripts (`mini-swe-bench-batch.sh` and `swe-
 prepare_run  →  run_agent  →  run_eval  →  summarize_and_log
 ```
 
-| Task | What it does |
-|---|---|
-| `prepare_run` | Reads Airflow params, generates a `run_id` (timestamp if set to `"auto"`), creates `runs/<run-id>/` directory tree, writes `config.json` |
-| `run_agent` | Calls `scripts/mini-swe-bench-batch.sh` via subprocess with env vars from config; outputs `preds.json` and per-task trajectory folders to `runs/<run-id>/run-agent/` |
-| `run_eval` | Calls `scripts/swe-bench-eval.sh` with `preds.json`; outputs per-task `report.json` files and an `eval.log` to `runs/<run-id>/run-eval/` |
-| `summarize_and_log` | Parses `report.json` files to compute `tasks_total`, `tasks_resolved`, `resolve_rate`; writes `metrics.json` and `manifest.json`; logs params + metrics to MLflow |
+| Task                | What it does                                                                                                                                                         |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prepare_run`       | Reads Airflow params, generates a `run_id` (timestamp if set to `"auto"`), creates `runs/<run-id>/` directory tree, writes `config.json`                             |
+| `run_agent`         | Calls `scripts/mini-swe-bench-batch.sh` via subprocess with env vars from config; outputs `preds.json` and per-task trajectory folders to `runs/<run-id>/run-agent/` |
+| `run_eval`          | Calls `scripts/swe-bench-eval.sh` with `preds.json`; outputs per-task `report.json` files and an `eval.log` to `runs/<run-id>/run-eval/`                             |
+| `summarize_and_log` | Parses `report.json` files to compute `tasks_total`, `tasks_resolved`, `resolve_rate`; writes `metrics.json` and `manifest.json`; logs params + metrics to MLflow    |
 
 **Deployment mode**: standalone Airflow (`uv tool run apache-airflow standalone`) with MLflow server run separately.
 
@@ -46,21 +46,21 @@ Open http://localhost:8080 (password is `admin` / `admin`).
 In the Airflow UI:
 
 1. Open the `evaluate_agent` DAG.
-2. Click **Trigger DAG w/ config**.
+2. Click **Trigger DAG**.
 3. Optionally customise params (see table below) or leave defaults for a quick 3-task run.
 4. Click **Trigger**.
 
 Available params:
 
-| Param | Default | Description |
-|---|---|---|
-| `split` | `test` | SWE-bench split |
-| `subset` | `verified` | SWE-bench subset |
-| `workers` | `1` | Parallel evaluation workers |
-| `model` | `nebius/moonshotai/Kimi-K2.6` | LLM model ID |
-| `task_slice` | `0:3` | Which tasks to run (Python slice syntax) |
-| `run_id` | `auto` | Run identifier; `auto` generates a timestamp-based ID |
-| `cost_limit` | `0` | Per-run cost cap in USD; `0` = unlimited |
+| Param        | Default                       | Description                                           |
+| ------------ | ----------------------------- | ----------------------------------------------------- |
+| `split`      | `test`                        | SWE-bench split                                       |
+| `subset`     | `verified`                    | SWE-bench subset                                      |
+| `workers`    | `1`                           | Parallel evaluation workers                           |
+| `model`      | `nebius/moonshotai/Kimi-K2.6` | LLM model ID                                          |
+| `task_slice` | `0:3`                         | Which tasks to run (Python slice syntax)              |
+| `run_id`     | `auto`                        | Run identifier; `auto` generates a timestamp-based ID |
+| `cost_limit` | `0`                           | Per-run cost cap in USD; `0` = unlimited              |
 
 ---
 
@@ -91,6 +91,7 @@ runs/
 ```
 
 `manifest.json` example:
+
 ```json
 {
   "run_dir": "/path/to/runs/run-20240104-120000",
@@ -100,7 +101,7 @@ runs/
   "eval_outputs": "…/run-eval",
   "eval_log": "…/run-eval/eval.log",
   "metrics": "…/metrics.json",
-  "summary": {"tasks_total": 3, "tasks_resolved": 1, "resolve_rate": 0.3333}
+  "summary": { "tasks_total": 3, "tasks_resolved": 1, "resolve_rate": 0.3333 }
 }
 ```
 
