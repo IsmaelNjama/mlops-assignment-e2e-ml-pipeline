@@ -39,11 +39,6 @@ from airflow.operators.python import PythonOperator
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNS_DIR = PROJECT_ROOT / "runs"
 
-# ---------------------------------------------------------------------------
-# Helper functions (importable from pipeline.experiment, also inlined here
-# so the DAG is self-contained and easy to read)
-# ---------------------------------------------------------------------------
-
 
 def build_run_config(params: dict[str, Any]) -> dict[str, Any]:
     """Normalise Airflow params into a run config dict."""
@@ -240,7 +235,8 @@ def _summarize_and_log(**context):
     try:
         import mlflow  # noqa: PLC0415
 
-        mlflow_uri = os.environ.get("MLFLOW_TRACKING_URI", "http://localhost:5000")
+        mlflow_uri = os.environ.get(
+            "MLFLOW_TRACKING_URI", "http://localhost:5000")
         mlflow.set_tracking_uri(mlflow_uri)
         mlflow.set_experiment("evaluate_agent")
 
