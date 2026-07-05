@@ -29,9 +29,19 @@ import glob
 import json
 import os
 import subprocess
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+# ---------------------------------------------------------------------------
+# Make project venv packages (mlflow, swebench, etc.) importable from
+# Airflow's Python process. When running `uv tool run apache-airflow`,
+# Airflow uses its own isolated Python that doesn't include project deps.
+# ---------------------------------------------------------------------------
+_VENV_SITE_PKGS = Path(__file__).resolve().parents[1] / ".venv" / "lib" / "python3.13" / "site-packages"
+if _VENV_SITE_PKGS.exists() and str(_VENV_SITE_PKGS) not in sys.path:
+    sys.path.insert(0, str(_VENV_SITE_PKGS))
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
