@@ -1,0 +1,14 @@
+{
+  "run_dir": "/home/njama/mlops-assignment-e2e-ml-pipeline/runs/run-20260706-181443",
+  "config": "/home/njama/mlops-assignment-e2e-ml-pipeline/runs/run-20260706-181443/config.json",
+  "agent_outputs": "/home/njama/mlops-assignment-e2e-ml-pipeline/runs/run-20260706-181443/run-agent",
+  "predictions": "/home/njama/mlops-assignment-e2e-ml-pipeline/runs/run-20260706-181443/run-agent/preds.json",
+  "eval_outputs": "/home/njama/mlops-assignment-e2e-ml-pipeline/runs/run-20260706-181443/run-eval",
+  "eval_log": "/home/njama/mlops-assignment-e2e-ml-pipeline/runs/run-20260706-181443/run-eval/eval.log",
+  "metrics": "/home/njama/mlops-assignment-e2e-ml-pipeline/runs/run-20260706-181443/metrics.json",
+  "summary": {
+    "tasks_total": 3,
+    "tasks_resolved": 2,
+    "resolve_rate": 0.6667
+  }
+}

@@ -1,0 +1,307 @@
+2026-07-05 17:01:46,909 - minisweagent - INFO - Loading dataset princeton-nlp/SWE-Bench_Verified, split test...
+2026-07-05 17:01:49,391 - minisweagent - INFO - Instance slice: 500 -> 3 instances
+2026-07-05 17:01:49,392 - minisweagent - INFO - Running on 3 instances...
+2026-07-05 17:01:49,392 - minisweagent - INFO - Building agent config from specs: ['.venv/lib/python3.12/site-packages/minisweagent/config/benchmarks/swebench.yaml']
+2026-07-05 17:01:50,955 - minisweagent.environment - DEBUG - Starting container with command: docker run -d --name minisweagent-3bb16b9e -w /testbed --rm docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest sleep 2h
+2026-07-05 17:01:51,123 - minisweagent.environment - INFO - Started container minisweagent-3bb16b9e with ID ce5793afcdbe52794d3e158cd0471998fa0f6c725b81b5c0c373f16ffe57ee90
+2026-07-05 17:05:59,806 - minisweagent - ERROR - Error processing instance astropy__astropy-12907: litellm.APIError: APIError: NebiusException - Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+Traceback (most recent call last):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 852, in completion
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 780, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 344, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 503, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 478, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_legacy_response.py", line 367, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.APIStatusError: Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/main.py", line 2781, in completion
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/main.py", line 2753, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 863, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/run/benchmarks/swebench.py", line 154, in process_instance
+    info = agent.run(task)
+           ^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/agents/default.py", line 98, in run
+    self.step()
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/run/benchmarks/utils/common.py", line 17, in step
+    return super().step()
+           ^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/agents/default.py", line 126, in step
+    return self.execute_actions(self.query())
+                                ^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/agents/default.py", line 147, in query
+    message = self.model.query(self.messages)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/models/litellm_model.py", line 82, in query
+    for attempt in retry(logger=logger, abort_exceptions=self.abort_exceptions):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/models/litellm_model.py", line 84, in query
+    response = self._query(self._prepare_messages_for_api(messages), **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/models/litellm_model.py", line 66, in _query
+    return litellm.completion(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/utils.py", line 1775, in wrapper
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/utils.py", line 1596, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/main.py", line 4614, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2473, in exception_type
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 634, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: NebiusException - Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+2026-07-05 17:05:59,829 - minisweagent - INFO - Saved trajectory to '/home/njama/mlops-assignment-e2e-ml-pipeline/runs/run-20260705-170144/run-agent/astropy__astropy-12907/astropy__astropy-12907.traj.json'
+2026-07-05 17:05:59,830 - minisweagent.environment - DEBUG - Starting container with command: docker run -d --name minisweagent-57e4a058 -w /testbed --rm docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-13033:latest sleep 2h
+2026-07-05 17:06:00,004 - minisweagent.environment - INFO - Started container minisweagent-57e4a058 with ID 7708d4e12ed8a0db6dba8703549e2f9f0119fbf3a4f561101aff8aa301e9be95
+2026-07-05 17:10:08,710 - minisweagent - ERROR - Error processing instance astropy__astropy-13033: litellm.APIError: APIError: NebiusException - Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+Traceback (most recent call last):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 852, in completion
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 780, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 344, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 503, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 478, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_legacy_response.py", line 367, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.APIStatusError: Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/main.py", line 2781, in completion
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/main.py", line 2753, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 863, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/run/benchmarks/swebench.py", line 154, in process_instance
+    info = agent.run(task)
+           ^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/agents/default.py", line 98, in run
+    self.step()
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/run/benchmarks/utils/common.py", line 17, in step
+    return super().step()
+           ^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/agents/default.py", line 126, in step
+    return self.execute_actions(self.query())
+                                ^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/agents/default.py", line 147, in query
+    message = self.model.query(self.messages)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/models/litellm_model.py", line 82, in query
+    for attempt in retry(logger=logger, abort_exceptions=self.abort_exceptions):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/models/litellm_model.py", line 84, in query
+    response = self._query(self._prepare_messages_for_api(messages), **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/models/litellm_model.py", line 66, in _query
+    return litellm.completion(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/utils.py", line 1775, in wrapper
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/utils.py", line 1596, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/main.py", line 4614, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2473, in exception_type
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 634, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: NebiusException - Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+2026-07-05 17:10:08,730 - minisweagent - INFO - Saved trajectory to '/home/njama/mlops-assignment-e2e-ml-pipeline/runs/run-20260705-170144/run-agent/astropy__astropy-13033/astropy__astropy-13033.traj.json'
+2026-07-05 17:10:08,732 - minisweagent.environment - DEBUG - Starting container with command: docker run -d --name minisweagent-feadc8b5 -w /testbed --rm docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-13236:latest sleep 2h
+2026-07-05 17:10:08,903 - minisweagent.environment - INFO - Started container minisweagent-feadc8b5 with ID eea5a942586063f24a2f781e429ae4ae13de8f1f7a16ae7aad9151ce8e57f6b4
+2026-07-05 17:14:17,504 - minisweagent - ERROR - Error processing instance astropy__astropy-13236: litellm.APIError: APIError: NebiusException - Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+Traceback (most recent call last):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 852, in completion
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 780, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 344, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 503, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 478, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_legacy_response.py", line 367, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1251, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.APIStatusError: Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/main.py", line 2781, in completion
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/main.py", line 2753, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 863, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/run/benchmarks/swebench.py", line 154, in process_instance
+    info = agent.run(task)
+           ^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/agents/default.py", line 98, in run
+    self.step()
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/run/benchmarks/utils/common.py", line 17, in step
+    return super().step()
+           ^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/agents/default.py", line 126, in step
+    return self.execute_actions(self.query())
+                                ^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/agents/default.py", line 147, in query
+    message = self.model.query(self.messages)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/models/litellm_model.py", line 82, in query
+    for attempt in retry(logger=logger, abort_exceptions=self.abort_exceptions):
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/models/litellm_model.py", line 84, in query
+    response = self._query(self._prepare_messages_for_api(messages), **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/minisweagent/models/litellm_model.py", line 66, in _query
+    return litellm.completion(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/utils.py", line 1775, in wrapper
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/utils.py", line 1596, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/main.py", line 4614, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2473, in exception_type
+    raise e
+  File "/home/njama/mlops-assignment-e2e-ml-pipeline/.venv/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 634, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: NebiusException - Error code: 402 - {'detail': 'Payment Required: You have exhausted your budget. Please add funds to continue using the API.'}
+2026-07-05 17:14:17,523 - minisweagent - INFO - Saved trajectory to '/home/njama/mlops-assignment-e2e-ml-pipeline/runs/run-20260705-170144/run-agent/astropy__astropy-13236/astropy__astropy-13236.traj.json'
