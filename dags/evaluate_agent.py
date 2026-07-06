@@ -38,10 +38,25 @@ from typing import Any
 # Make project venv packages (mlflow, swebench, etc.) importable from
 # Airflow's Python process. When running `uv tool run apache-airflow`,
 # Airflow uses its own isolated Python that doesn't include project deps.
+# We discover the site-packages path dynamically so it works regardless of
+# the Python minor version installed on the VM.
 # ---------------------------------------------------------------------------
-_VENV_SITE_PKGS = Path(__file__).resolve().parents[1] / ".venv" / "lib" / "python3.13" / "site-packages"
-if _VENV_SITE_PKGS.exists() and str(_VENV_SITE_PKGS) not in sys.path:
+_VENV_LIB = Path(__file__).resolve().parents[1] / ".venv" / "lib"
+_VENV_SITE_PKGS = None
+if _VENV_LIB.exists():
+    # Find the first python3.x directory inside .venv/lib/
+    for _candidate in sorted(_VENV_LIB.iterdir()):
+        if _candidate.is_dir() and _candidate.name.startswith("python"):
+            _sp = _candidate / "site-packages"
+            if _sp.exists():
+                _VENV_SITE_PKGS = _sp
+                break
+
+if _VENV_SITE_PKGS is not None and str(_VENV_SITE_PKGS) not in sys.path:
     sys.path.insert(0, str(_VENV_SITE_PKGS))
+    print(f"[DAG init] injected venv site-packages: {_VENV_SITE_PKGS}")
+else:
+    print(f"[DAG init] WARNING: could not find venv site-packages under {_VENV_LIB}")
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
