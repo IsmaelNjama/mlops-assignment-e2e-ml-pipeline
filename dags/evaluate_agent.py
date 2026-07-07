@@ -25,6 +25,8 @@ Artifact layout:
     manifest.json
 """
 
+from airflow.operators.python import PythonOperator
+from airflow import DAG
 import glob
 import json
 import os
@@ -34,13 +36,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-# ---------------------------------------------------------------------------
-# Make project venv packages (mlflow, swebench, etc.) importable from
-# Airflow's Python process. When running `uv tool run apache-airflow`,
-# Airflow uses its own isolated Python that doesn't include project deps.
-# We discover the site-packages path dynamically so it works regardless of
-# the Python minor version installed on the VM.
-# ---------------------------------------------------------------------------
+
 _VENV_LIB = Path(__file__).resolve().parents[1] / ".venv" / "lib"
 _VENV_SITE_PKGS = None
 if _VENV_LIB.exists():
@@ -56,10 +52,9 @@ if _VENV_SITE_PKGS is not None and str(_VENV_SITE_PKGS) not in sys.path:
     sys.path.insert(0, str(_VENV_SITE_PKGS))
     print(f"[DAG init] injected venv site-packages: {_VENV_SITE_PKGS}")
 else:
-    print(f"[DAG init] WARNING: could not find venv site-packages under {_VENV_LIB}")
+    print(
+        f"[DAG init] WARNING: could not find venv site-packages under {_VENV_LIB}")
 
-from airflow import DAG
-from airflow.operators.python import PythonOperator
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNS_DIR = PROJECT_ROOT / "runs"
@@ -156,9 +151,7 @@ def write_manifest(run_dir: Path, metrics: dict[str, Any]) -> Path:
     return manifest_path
 
 
-# ---------------------------------------------------------------------------
 # Task callables
-# ---------------------------------------------------------------------------
 
 
 def _prepare_run(**context):
@@ -282,7 +275,7 @@ def _summarize_and_log(**context):
                 "tasks_resolved": float(metrics["tasks_resolved"]),
                 "resolve_rate": float(metrics["resolve_rate"]),
             })
-            # Log artifact path (local; swap for mlflow.log_artifacts for full upload)
+            # Log artifact path (local)
             mlflow.set_tag("artifact_path", str(run_dir))
             mlflow.set_tag("run_dir", str(run_dir))
 
@@ -298,9 +291,7 @@ def _summarize_and_log(**context):
     return str(run_dir)
 
 
-# ---------------------------------------------------------------------------
 # DAG definition
-# ---------------------------------------------------------------------------
 
 with DAG(
     dag_id="evaluate_agent",

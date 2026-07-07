@@ -132,18 +132,3 @@ To reproduce a run from scratch on a fresh machine:
 3. Trigger the DAG with all params taken from `config.json`.
 
 ---
-
-## Notes on Remote Storage (S3)
-
-Remote upload is not implemented in this iteration. To add it, extend `summarize_and_log` with:
-
-```python
-import subprocess
-subprocess.run(
-    ["aws", "s3", "sync", str(run_dir), f"s3://your-bucket/runs/{config['run_id']}/"],
-    check=True,
-)
-mlflow.set_tag("s3_artifact_uri", f"s3://your-bucket/runs/{config['run_id']}/")
-```
-
-Then log the S3 URI to MLflow instead of (or in addition to) the local path.

@@ -11,7 +11,7 @@ set -euo pipefail
 : "${OUTPUT_DIR:=trajectories}"
 
 # Locate the swebench benchmark config bundled with mini-swe-agent.
-# Try python3.13 first, then fall back to whatever python version is in the venv.
+
 CONFIG_PATH="${CONFIG_PATH:-}"
 if [ -z "$CONFIG_PATH" ]; then
     CONFIG_PATH=$(find .venv/lib -name "swebench.yaml" \
